@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>True or False Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>True or False Game</h1>
+    <div class="question"></div>
+    <div class="options">
+      <button class="true-btn">True</button>
+      <button class="false-btn">False</button>
+    </div>
+    <div class="result"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
