@@ -1,51 +1,42 @@
-<html>
-<head>
-    <title>Profile</title>
-    </title>
-</head>
-<body>
-    <div align="center">
-        <h1>Save and View an Employee Profile</h1>
-        Employee ID:
-        <br>
-        <input type="text" name="employeeid" id="empid">
-        <br> First name:
-        <br>
-        <input type="text" name="firstname" id="fname">
-        <br> Last name:
-        <br>
-        <input type="text" name="lastname" id="lname">
-        <br> Employee Age:
-        <br>
-        <input type="text" name="empage" id="empage">
-        <br>
-        <br>
-        <input type="submit" id="saveprofile" value="Save Profile">
-        <br>
-        <p id="profileSaved"></p>
-        <br>
-        <input type="submit" id="getprofile" value="View all the Employee Profiles">
-        <br>
-        <div id="showProfile">
-            <table id="employeeProfile">
-                <colgroup>
-                    <col style="width:20%">
-                    <col style="width:20%">
-                    <col style="width:20%">
-                    <col style="width:20%">
-                </colgroup>
-                <tbody>
-                    <tr>
-                        <th>Employee ID</th>
-                        <th>First name</th>
-                        <th>Last Name</th>
-                        <th>Employee Age</th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <script src="scripts.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
-</body>
-</html>
+const questions = [
+  "The Earth is flat.",
+  "Cats can fly.",
+  "Water boils at 100 degrees Celsius."
+];
+
+const answers = [false, false, true];
+
+const questionText = document.querySelector('.question');
+const trueBtn = document.querySelector('.true-btn');
+const falseBtn = document.querySelector('.false-btn');
+const result = document.querySelector('.result');
+
+let currentQuestion = 0;
+displayQuestion();
+
+trueBtn.addEventListener('click', () => checkAnswer(true));
+falseBtn.addEventListener('click', () => checkAnswer(false));
+
+function displayQuestion() {
+  if (currentQuestion < questions.length) {
+    questionText.textContent = questions[currentQuestion];
+  } else {
+    questionText.textContent = "Quiz finished!";
+    trueBtn.disabled = true;
+    falseBtn.disabled = true;
+  }
+}
+
+function checkAnswer(userAnswer) {
+  const correctAnswer = answers[currentQuestion];
+  if (userAnswer === correctAnswer) {
+    result.textContent = "Correct!";
+  } else {
+    result.textContent = "Wrong!";
+  }
+  currentQuestion++;
+  setTimeout(() => {
+    result.textContent = "";
+    displayQuestion();
+  }, 1500);
+}
