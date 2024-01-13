@@ -1,0 +1,32 @@
+Lambda Get function
+
+import json
+import boto3
+
+def lambda_handler(event, context):
+    try:
+        # Create a DynamoDB resource with the specified region
+        dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
+
+        # Specify the DynamoDB table
+        table = dynamodb.Table('tablefranky')
+
+        # Perform the initial scan
+        response = table.scan()
+        data = response['Items']
+
+        # Continue scanning if there are more items
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+            data.extend(response['Items'])
+	
+       #return a properly formatted JSON object
+        return {
+            'statusCode': 200,
+            'body': json.dumps(data)
+        }
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'body': json.dumps({'error': str(e)})
+        }
