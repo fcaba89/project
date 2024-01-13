@@ -1,42 +1,45 @@
-const questions = [
-  "The Earth is flat.",
-  "Cats can fly.",
-  "Water boils at 100 degrees Celsius."
-];
-
-const answers = [false, false, true];
-
-const questionText = document.querySelector('.question');
-const trueBtn = document.querySelector('.true-btn');
-const falseBtn = document.querySelector('.false-btn');
-const result = document.querySelector('.result');
-
-let currentQuestion = 0;
-displayQuestion();
-
-trueBtn.addEventListener('click', () => checkAnswer(true));
-falseBtn.addEventListener('click', () => checkAnswer(false));
-
-function displayQuestion() {
-  if (currentQuestion < questions.length) {
-    questionText.textContent = questions[currentQuestion];
-  } else {
-    questionText.textContent = "Quiz finished!";
-    trueBtn.disabled = true;
-    falseBtn.disabled = true;
-  }
+//add my api here below
+var API_ENDPOINT = "Phttps://hfs2p8upk2.execute-api.us-east-2.amazonaws.com/project"
+//AJAX GET REQUEST
+document.getElementById("saveprofile").onclick = function () {
+  var inputData = {
+    "empId": $('#empid').val(),
+    "empFirstName": $('#fname').val(),
+    "empLastName": $('#lname').val(),
+    "empAge": $('#empage').val()
+  };
+  $.ajax({
+    url: API_ENDPOINT,
+    type: 'POST',
+    data: JSON.stringify(inputData),
+    contentType: 'application/json; charset=utf-8',
+    success: function (response) {
+      document.getElementById("profileSaved").innerHTML = "Profile Saved!";
+    },
+    error: function () {
+      alert("error");
+    }
+  });
 }
-
-function checkAnswer(userAnswer) {
-  const correctAnswer = answers[currentQuestion];
-  if (userAnswer === correctAnswer) {
-    result.textContent = "Correct!";
-  } else {
-    result.textContent = "Wrong!";
-  }
-  currentQuestion++;
-  setTimeout(() => {
-    result.textContent = "";
-    displayQuestion();
-  }, 1500);
+//AJAX GET REQUEST
+document.getElementById("getprofile").onclick = function () {
+  $.ajax({
+    url: API_ENDPOINT,
+    type: 'GET',
+    contentType: 'application/json; charset=utf-8',
+    success: function (response) {
+      $('#employeeProfile tr').slice(1).remove();
+      jQuery.each(response, function (i, data) {
+        $("#employeeProfile").append("<tr> \
+                <td>" + data['empId'] + "</td> \
+                <td>" + data['empFirstName'] + "</td> \
+                <td>" + data['empLastName'] + "</td> \
+                <td>" + data['empAge'] + "</td> \
+                </tr>");
+      });
+    },
+    error: function () {
+      alert("error");
+    }
+  });
 }
