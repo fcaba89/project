@@ -4,7 +4,7 @@ const port = 5000; // Your port number
 
 // Serve the index.html file
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/templates/index.html'); // Fix the path separator
+    res.sendFile(__dirname + 'index.html'); // Fix the path separator
 });
 
 // Start the server and listen on all available network interfaces
