@@ -1,45 +1,40 @@
-//add my api here below
-var API_ENDPOINT = "Phttps://hfs2p8upk2.execute-api.us-east-2.amazonaws.com/project"
-//AJAX GET REQUEST
-document.getElementById("saveprofile").onclick = function () {
-  var inputData = {
-    "empId": $('#empid').val(),
-    "empFirstName": $('#fname').val(),
-    "empLastName": $('#lname').val(),
-    "empAge": $('#empage').val()
-  };
-  $.ajax({
-    url: API_ENDPOINT,
-    type: 'POST',
-    data: JSON.stringify(inputData),
-    contentType: 'application/json; charset=utf-8',
-    success: function (response) {
-      document.getElementById("profileSaved").innerHTML = "Profile Saved!";
-    },
-    error: function () {
-      alert("error");
-    }
-  });
+function saveProfile() {
+    const employeeId = document.getElementById('employeeId').value;
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const age = document.getElementById('age').value;
+
+    const data = {
+        employeeId,
+        firstName,
+        lastName,
+        age
+    };
+
+    fetch('http://localhost:5000/save_profile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => alert(result.message))
+        .catch(error => console.error('Error:', error));
 }
-//AJAX GET REQUEST
-document.getElementById("getprofile").onclick = function () {
-  $.ajax({
-    url: API_ENDPOINT,
-    type: 'GET',
-    contentType: 'application/json; charset=utf-8',
-    success: function (response) {
-      $('#employeeProfile tr').slice(1).remove();
-      jQuery.each(response, function (i, data) {
-        $("#employeeProfile").append("<tr> \
-                <td>" + data['empId'] + "</td> \
-                <td>" + data['empFirstName'] + "</td> \
-                <td>" + data['empLastName'] + "</td> \
-                <td>" + data['empAge'] + "</td> \
-                </tr>");
-      });
-    },
-    error: function () {
-      alert("error");
-    }
-  });
+
+function showEmployees() {
+    fetch('http://localhost:5000/get_profiles')
+        .then(response => response.json())
+        .then(profiles => {
+            const employeeList = document.getElementById('employeeList');
+            employeeList.innerHTML = '';
+
+            profiles.forEach(profile => {
+                const employeeInfo = document.createElement('div');
+                employeeInfo.innerHTML = `<strong>Employee ID:</strong> ${profile.employeeId}, <strong>Name:</strong> ${profile.firstName} ${profile.lastName}, <strong>Age:</strong> ${profile.age}`;
+                employeeList.appendChild(employeeInfo);
+            });
+        })
+        .catch(error => console.error('Error:', error));
 }
