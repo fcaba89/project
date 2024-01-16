@@ -11,7 +11,7 @@ function saveProfile() {
         age
     };
 
-    fetch('http://localhost:5000/save_profile', {
+    fetch('https://hfs2p8upk2.execute-api.us-east-2.amazonaws.com/project/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -24,7 +24,7 @@ function saveProfile() {
 }
 
 function showEmployees() {
-    fetch('http://localhost:5000/get_profiles')
+    fetch('https://hfs2p8upk2.execute-api.us-east-2.amazonaws.com/project/')
         .then(response => response.json())
         .then(profiles => {
             const employeeList = document.getElementById('employeeList');
